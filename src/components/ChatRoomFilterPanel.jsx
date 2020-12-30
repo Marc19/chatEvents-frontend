@@ -46,7 +46,7 @@ const ChatRoomFilterPanel = (props) => {
 
           <Dropdown.Menu size="sm">
             <Dropdown.Item onSelect={(e) => setGranularity("")}>
-              None
+              <i>minute by minute</i>
             </Dropdown.Item>
             <Dropdown.Item onSelect={(e) => setGranularity(1)}>1</Dropdown.Item>
             <Dropdown.Item onSelect={(e) => setGranularity(2)}>2</Dropdown.Item>
