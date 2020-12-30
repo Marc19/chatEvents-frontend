@@ -8,6 +8,7 @@ import { BASE_URL } from "./configuration";
 import "./App.css";
 
 const App = () => {
+  const [initialFetchFailed, setInitialFetchFailed] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
   const [chatRoom, setChatRoom] = useState(null);
@@ -42,8 +43,10 @@ const App = () => {
               })
             : []) ?? []
         );
+        setInitialFetchFailed(false);
         setLoading(false);
       } catch (error) {
+        setInitialFetchFailed(true);
         setLoading(false);
       }
     };
@@ -87,12 +90,12 @@ const App = () => {
     } else {
       getChatEventStats();
     }
-  }, [chatRoom, queryParams]);
+  }, [chatRoom?.chatRoomId, queryParams]);
 
   useEffect(() => {
-    if (!chatRoom || !queryParams) return;
+    if (!chatRoom?.chatRoomId || !queryParams) return;
     queryEvents();
-  }, [chatRoom, queryEvents, queryParams]);
+  }, [chatRoom?.chatRoomId, queryEvents, queryParams]);
 
   /**
    * @param {Date} date
@@ -126,6 +129,13 @@ const App = () => {
     setUsers(newUsers);
   };
 
+  if (initialFetchFailed)
+    return (
+      <div className="d-flex mt-2 justify-content-center">
+        Please make sure Backend App is running
+      </div>
+    );
+
   if (isLoading) return <AppSpinner />;
 
   return (
@@ -133,14 +143,14 @@ const App = () => {
       <div className="two-users-col col-xs-12 col-lg-3">
         <UserCard
           user={users[0]}
-          chatRoomId={chatRoom.chatRoomId}
+          chatRoomId={chatRoom?.chatRoomId}
           queryEvents={queryEvents}
           updateUserIsInRoom={updateUserIsInRoom}
           usersInRoom={chatRoom?.users}
         />
         <UserCard
           user={users[1]}
-          chatRoomId={chatRoom.chatRoomId}
+          chatRoomId={chatRoom?.chatRoomId}
           queryEvents={queryEvents}
           updateUserIsInRoom={updateUserIsInRoom}
           usersInRoom={chatRoom?.users}
@@ -158,14 +168,14 @@ const App = () => {
       <div className="two-users-col col-xs-12 col-lg-3 mb-xs-4">
         <UserCard
           user={users[2]}
-          chatRoomId={chatRoom.chatRoomId}
+          chatRoomId={chatRoom?.chatRoomId}
           queryEvents={queryEvents}
           updateUserIsInRoom={updateUserIsInRoom}
           usersInRoom={chatRoom?.users}
         />
         <UserCard
           user={users[3]}
-          chatRoomId={chatRoom.chatRoomId}
+          chatRoomId={chatRoom?.chatRoomId}
           queryEvents={queryEvents}
           updateUserIsInRoom={updateUserIsInRoom}
           usersInRoom={chatRoom?.users}
