@@ -4,7 +4,7 @@ import ChatRoomFilterPanel from "./ChatRoomFilterPanel";
 import ChatEventLabel from "./ChatEventLabel";
 
 /**
- * @param {{queryParams: {granularity: string, from: Date, to: Date}, queryEvents: Function, events: Array}} props
+ * @param {{queryParams: {granularity: string|number, from: Date, to: Date}, queryEvents: Function, events: Array}} props
  */
 const ChatRoom = (props) => {
   const { queryParams, setQueryParams, events } = props;
@@ -102,7 +102,7 @@ const ChatRoom = (props) => {
 
 ChatRoom.propTypes = {
   queryParams: PropTypes.shape({
-    granularity: PropTypes.number,
+    granularity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     from: PropTypes.object,
     to: PropTypes.object,
   }),
