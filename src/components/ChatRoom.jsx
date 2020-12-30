@@ -89,7 +89,7 @@ const ChatRoom = (props) => {
       <div className="chat-events-list">
         {events?.map((e) => (
           <ChatEventLabel
-            key={e.EventId}
+            key={e.EventId ? e.EventId : e.hour}
             time={formatDate(e.TimeStamp ? e.TimeStamp : e.hour)}
             events={extractEvents(e)}
           />
